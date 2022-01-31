@@ -1,0 +1,37 @@
+---
+
+    all:
+        hosts:
+            matestation:
+        children:
+            webservers:
+                hosts:
+                    controller-server-1:
+                        ansible_port: 22
+                        ansible_hosts: 192.168.1.211
+                    controlller-server-2:
+                        ansible_port: 22
+                        ansible_hosts: 192.168.1.212
+            database:
+                hosts:
+                    controller-server-[1:2]:
+                vars:
+                    dns-server: 1.1.1.1
+                    dns-server-2: 1.0.0.1
+            monitoring:
+                hosts:
+                    controller-server-3:
+                        http_port: 80
+                        maxRequestPerChild: 1000
+                    controller-server-4:
+                        http_port: 80
+                        maxRequestPerChild: 1000
+            logs:
+                hosts:
+                    controller-server-[3:4]:
+            web-group:
+                hosts:
+                    webservers:
+                    database:
+                    monitoring:
+                    logs:
